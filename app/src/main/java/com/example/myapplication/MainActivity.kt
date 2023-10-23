@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,8 +33,19 @@ class MainActivity : ComponentActivity() {
             ) {
                 CardImage()
                 InfoText()
+                DescriptionText()
             }
         }
+    }
+
+    @Composable
+    fun DescriptionText() {
+        Text(
+            text = stringResource(R.string.compose_learning_description),
+            fontFamily = FontFamily.Cursive,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
     }
 
     @Composable
@@ -46,17 +58,19 @@ class MainActivity : ComponentActivity() {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.image_car),
-                contentDescription = "image"
+                contentDescription = stringResource(R.string.image_content_description)
             )
         }
     }
 
     @Composable
     fun InfoText() {
-        Text(text = "Compose Learning",
+        Text(
+            text = stringResource(R.string.compose_learning_title),
             Modifier.padding(10.dp),
             fontSize = 40.sp,
             fontFamily = FontFamily.Cursive,
-            color = Color.Gray)
+            color = Color.Gray
+        )
     }
 }
