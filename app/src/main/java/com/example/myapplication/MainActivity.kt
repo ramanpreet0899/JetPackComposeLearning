@@ -17,7 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -34,6 +39,7 @@ class MainActivity : ComponentActivity() {
                 CardImage()
                 InfoText()
                 DescriptionText()
+                TextStyle()
             }
         }
     }
@@ -47,6 +53,33 @@ class MainActivity : ComponentActivity() {
             color = Color.Gray
         )
     }
+
+    @Composable
+    fun TextStyle() {
+        Text(buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontFamily = FontFamily.Cursive,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            ) {
+                append("T")
+            }
+            append("ext")
+            withStyle(
+                style = SpanStyle(
+                    fontFamily = FontFamily.Cursive,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            ) {
+                append("S")
+            }
+            append("tyle")
+        }, textDecoration = TextDecoration.Underline)
+    }
+
 
     @Composable
     fun CardImage() {
