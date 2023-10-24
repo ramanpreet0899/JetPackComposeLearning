@@ -5,13 +5,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +33,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +49,43 @@ class MainActivity : ComponentActivity() {
                 InfoText()
                 DescriptionText()
                 TextStyle()
+                SpaceBox()
+                ColorStateRow()
             }
+        }
+    }
+
+    /* Spacer, to add additional space anywhere
+    * */
+    @Composable
+    fun SpaceBox() {
+        Spacer(modifier = Modifier.padding(top = 20.dp))
+    }
+
+    /* Internal State, if it changes its own state
+    * External State, if it changes another view's state
+    * remember, to remember the changed state */
+    @Composable
+    fun ColorStateRow() {
+        val colorState = remember {
+            mutableStateOf(Color.Green)
+        }
+        Row(
+            modifier = Modifier
+                .height(100.dp)
+                .fillMaxHeight()
+        ) {
+            ColorBox(modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(), updateColor = {
+                colorState.value = it
+            })
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .background(colorState.value)
+            )
         }
     }
 
@@ -105,5 +150,21 @@ class MainActivity : ComponentActivity() {
             fontFamily = FontFamily.Cursive,
             color = Color.Gray
         )
+    }
+
+    @Composable
+    fun ColorBox(modifier: Modifier, updateColor: (Color) -> Unit) {
+        Box(modifier = modifier
+            .background(Color.Red)
+            .clickable {
+                updateColor(
+                    Color(
+                        Random.nextFloat(),
+                        Random.nextFloat(),
+                        Random.nextFloat(),
+                        1f
+                    )
+                )
+            })
     }
 }
