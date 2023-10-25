@@ -32,6 +32,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -41,8 +42,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -56,16 +61,54 @@ class MainActivity : ComponentActivity() {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CardImage()
-                InfoText()
-                DescriptionText()
-                TextStyle()
-                SpaceBox()
+//                CardImage()
+//                InfoText()
+//                DescriptionText()
+//                TextStyle()
+//                SpaceBox()
 //                ColorStateRow()
 //                TextFieldWithButtonBox()
-                ComposeList()
-                ComposeLazyList()
+//                ComposeList()
+//                ComposeLazyList()
+                ConstraintCompose()
             }
+        }
+    }
+
+    @Composable
+    fun ConstraintCompose() {
+        val constraints = ConstraintSet {
+            val userNameText = createRefFor("username")
+            val password = createRefFor("password")
+
+            constrain(userNameText) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                width = Dimension.fillToConstraints
+                height = Dimension.value(40.dp)
+            }
+
+            constrain(password) {
+                top.linkTo(userNameText.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                width = Dimension.fillToConstraints
+                height = Dimension.value(40.dp)
+            }
+        }
+
+        ConstraintLayout(constraints, modifier = Modifier.fillMaxSize()) {
+            Text(
+                text = "Please enter your name",
+                modifier = Modifier
+                    .layoutId("username")
+            )
+            Text(
+                text = "please enter your password",
+                modifier = Modifier
+                    .layoutId("password")
+            )
         }
     }
 
