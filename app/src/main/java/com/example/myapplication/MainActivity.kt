@@ -15,7 +15,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -57,8 +61,76 @@ class MainActivity : ComponentActivity() {
                 DescriptionText()
                 TextStyle()
                 SpaceBox()
-                ColorStateRow()
-                TextFieldWithButtonBox()
+//                ColorStateRow()
+//                TextFieldWithButtonBox()
+                ComposeList()
+                ComposeLazyList()
+            }
+        }
+    }
+
+    @Composable
+    fun ComposeLazyList() {
+        val cars = arrayListOf<String>(
+            "Hyundai",
+            "honda",
+            "Toyota",
+            "tesla",
+            "mercedez",
+            "Range rover",
+            "Nissan",
+            "Farari",
+            "Audi",
+            "alto",
+            "Maruti",
+            "Dodge"
+        )
+        LazyColumn(modifier = Modifier.padding(10.dp)) {
+            items(count = cars.size) {
+                Text(
+                    text = cars[it],
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 30.dp),
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.Monospace
+                )
+            }
+        }
+    }
+
+
+    @Composable
+    fun ComposeList() {
+        val scrollState = rememberScrollState()
+        val cars = arrayListOf<String>(
+            "Hyundai",
+            "honda",
+            "Toyota",
+            "tesla",
+            "mercedez",
+            "Range rover",
+            "Nissan",
+            "Farari",
+            "Audi",
+            "alto",
+            "Maruti",
+            "Dodge",
+            "Buck"
+        )
+
+        Column(modifier = Modifier.verticalScroll(scrollState)) {
+            for (car in cars) {
+                Text(
+                    text = car,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 30.dp),
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.Monospace
+                )
             }
         }
     }
